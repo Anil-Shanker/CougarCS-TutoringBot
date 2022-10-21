@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tutor {
+  tutor_id String @id @db.VarChar(64)
+}
+
+model volunteer_session {
+  transaction_id String   @id @db.VarChar(64)
+  tutor_id       String   @db.VarChar(64)
+  timestamp      DateTime @default(now()) @db.DateTime(0)
+  duration       Int
+  description    String   @db.VarChar(1024)
+
+  @@index([tutor_id], map: "tutor_id")
+}
+
+model volunteer_session_volunteer_type {
+  tutor_id          String @db.VarChar(64)
+  volunteer_type_id String @db.VarChar(16)
+
+  @@id([tutor_id, volunteer_type_id])
+}
+
+model volunteer_type {
+  volunteer_type_id String  @id @db.VarChar(16)
+  description       String? @db.VarChar(64)
+}
