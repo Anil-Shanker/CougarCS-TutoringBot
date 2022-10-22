@@ -1,26 +1,29 @@
 import { Router } from "express";
 import { body, validationResult } from "express-validator";
 
-import RegisterService from "../services/register-service";
+import LogService from "../services/log-service";
 
 const router = Router();
 
-/* POST /register */
+/* POST /log */
 
 router.post(
     "/",
-    body("discordId").isString().notEmpty(),
+    body("duration").isNumeric().notEmpty(),
+    body("description").isString().notEmpty(),
+    body("tutoringTypeId").isNumeric().notEmpty(),
+    body("tutorId").isString().notEmpty(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { discordId } = req.body;
+        const { duration, description, tutoringTypeId, tutorId } = req.body;
 
         try {
-            const registration = RegisterService.createRegistration(discordId);
-            return res.status(200).json({ registration });
+            const log = LogService.createLog(tutorId, tutoringTypeId, duration, description);
+            return res.status(200).json({ log });
         } catch (err) {
             console.log(`RegisterService.createRegistration() failed - Error=${err}`);
         }
@@ -30,3 +33,4 @@ router.post(
 );
 
 export default router;
+

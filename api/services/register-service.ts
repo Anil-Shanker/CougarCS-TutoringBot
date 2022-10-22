@@ -2,13 +2,13 @@ import { prisma } from "../utils/prisma";
 
 class RegisterService {
     static async createRegistration(
-        user_id: string
+        discordId: string
     ) {
-        console.log(`RegisterService.createRegistration() - user_id=${user_id}`);
+        console.log(`RegisterService.createRegistration() called - discordId=${discordId}`);
 
-        const registration = prisma.tutor.create({
+        const registration = await prisma.tutor.create({
             data: {
-                tutor_id: user_id
+                id: discordId
             },
         });
 
