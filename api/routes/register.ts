@@ -19,7 +19,7 @@ router.post(
         const { discordId } = req.body;
 
         try {
-            const registration = RegisterService.createRegistration(discordId);
+            const registration = await RegisterService.createRegistration(discordId);
             return res.status(200).json({ registration });
         } catch (err) {
             console.log(`RegisterService.createRegistration() failed - Error=${err}`);

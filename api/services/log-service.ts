@@ -7,7 +7,7 @@ class LogService {
         duration: number,
         description: string,
     ) {
-        console.log(`LogService.createLog() called - tutoringTypes=${tutoringTypeId}, duration=${duration}, description=${description}`);
+        console.log(`LogService.createLog() called - tutorId=${tutorId}, tutoringTypes=${tutoringTypeId}, duration=${duration}, description=${description}`);
 
         const log = await prisma.tutoringSession.create({
             data: {

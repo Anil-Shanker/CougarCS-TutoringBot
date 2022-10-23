@@ -22,13 +22,12 @@ router.post(
         const { duration, description, tutoringTypeId, tutorId } = req.body;
 
         try {
-            const log = LogService.createLog(tutorId, tutoringTypeId, duration, description);
+            const log = await LogService.createLog(tutorId, tutoringTypeId, duration, description);
             return res.status(200).json({ log });
         } catch (err) {
             console.log(`LogService.createLog() failed - Error=${err}`);
+            return res.status(500).json({ message: "Unable to add resource", error: err });
         }
-
-        res.status(500).json({ message: "Unable to add resource" });
     }
 );
 
@@ -44,7 +43,7 @@ router.delete(
         const { tutoringSessionId } = req.body;
 
         try {
-            const log = LogService.deleteLog(tutoringSessionId);
+            const log = await LogService.deleteLog(tutoringSessionId);
             return res.status(200).json({ log });
         }
 
