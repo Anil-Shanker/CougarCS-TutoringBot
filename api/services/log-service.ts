@@ -5,7 +5,7 @@ class LogService {
         tutorId: string,
         tutoringTypeId: number,
         duration: number,
-        description: string
+        description: string,
     ) {
         console.log(`LogService.createLog() called - tutoringTypes=${tutoringTypeId}, duration=${duration}, description=${description}`);
 
@@ -20,6 +20,20 @@ class LogService {
                     connect: { id: tutoringTypeId },
                 },
             }
+        });
+
+        return log;
+    }
+
+    static async deleteLog(
+        tutoringSessionId: string,
+    ) {
+        console.log(`LogService.deleteLog() called - tutoringSessionId=${tutoringSessionId}`);
+
+        const log = await prisma.tutoringSession.delete({
+            where: {
+                id: tutoringSessionId,
+            },
         });
 
         return log;
