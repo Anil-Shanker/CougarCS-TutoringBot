@@ -4,6 +4,7 @@ import cors from "cors";
 
 import registerRoute from "./routes/register";
 import logRoute from "./routes/log";
+import statsRoute from "./routes/stats";
 
 const app = express();
 const PORT = 8080;
@@ -17,6 +18,8 @@ app.use(cors());
 
 app.use("/register", registerRoute);
 app.use("/log", logRoute);
+app.use("/stats", statsRoute);
+
 
 app.listen(PORT, () => {
     console.log(`server started at http://localhost:${PORT}`);
