@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Tutor {
+  id               String            @id
+  tutoringSessions TutoringSession[]
+}
+
+model TutoringSession {
+  id             String       @id @default(uuid())
+  timestamp      DateTime     @default(now()) @db.DateTime(0)
+  duration       Int
+  description    String       @db.VarChar(1024)
+  TutoringType   TutoringType @relation(fields: [tutoringTypeId], references: [id])
+  tutoringTypeId Int
+  Tutor          Tutor        @relation(fields: [tutorId], references: [id])
+  tutorId        String
+}
+
+model TutoringType {
+  id              Int               @id @map("tutoringTypeId")
+  description     String
+  TutoringSession TutoringSession[]
+}
