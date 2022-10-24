@@ -1,11 +1,30 @@
+const axios = require('axios');
+
 const { SlashCommandBuilder } = require('discord.js');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('register')
 		.setDescription('Register new tutor to the tutoring bot!'),
 	async execute(interaction) {
-        // Create API call
-		await interaction.reply(interaction.member.user.id);
+		console.log(`/register invoked!`);
+		const discordId = interaction.member.user.id;
+
+		const options = {
+			url: "http://localhost:8080/register",
+			method: "POST",
+			data: {
+				discordId: discordId,
+			},
+		};
+
+		try {
+			const res = await axios(options);
+			await interaction.reply("Congratulations! You have been registered to the bot!");
+		} catch (err) {
+			console.log(`/register - API call failed! Error=${err}`);
+			await interaction.reply("Uh oh! Something went wrong.");
+		}
 	},
 };
