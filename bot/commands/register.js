@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const { SlashCommandBuilder } = require('discord.js');
 
+const { host, port } = require('../config');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +13,7 @@ module.exports = {
 		const discordId = interaction.member.user.id;
 
 		const options = {
-			url: "http://localhost:8080/register",
+			url: `${host}:${port}/register`,
 			method: "POST",
 			data: {
 				discordId: discordId,
