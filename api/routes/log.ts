@@ -7,6 +7,30 @@ const router = Router();
 
 /* POST /log */
 
+router.get(
+    "/lastForTutor",
+    body("tutorId").isString().notEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { tutorId } = req.body;
+
+        try {
+            const log = await LogService.selectLastLogForTutor(tutorId);
+            return res.status(200).json({ log });
+        }
+
+        catch (err) {
+            console.log(`LogService.selectLastLogForTutor() failed - Error=${err}`);
+        }
+
+        res.status(500).json({ message: "Unable to access resource" });
+    }
+);
+
 router.post(
     "/",
     body("duration").isNumeric().notEmpty(),
