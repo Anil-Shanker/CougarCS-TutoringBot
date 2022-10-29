@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
+import { body, query, validationResult } from "express-validator";
 
 import LogService from "../services/log-service";
 
@@ -9,14 +9,14 @@ const router = Router();
 
 router.get(
     "/lastForTutor",
-    body("tutorId").isString().notEmpty(),
+    query("discordId").isString().notEmpty(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { tutorId } = req.body;
+        const tutorId = req?.query?.discordId;
 
         try {
             const log = await LogService.selectLastLogForTutor(tutorId);
