@@ -5,7 +5,7 @@ import LogService from "../services/log-service";
 
 const router = Router();
 
-/* POST /log */
+/* GET /log/lastForTutor */
 
 router.get(
     "/lastForTutor",
@@ -31,6 +31,8 @@ router.get(
     }
 );
 
+/* POST /log */
+
 router.post(
     "/",
     body("duration").isNumeric().notEmpty(),
@@ -54,6 +56,8 @@ router.post(
         }
     }
 );
+
+/* DELETE /log */
 
 router.delete(
     "/",
