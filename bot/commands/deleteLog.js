@@ -2,7 +2,7 @@ const axios = require('axios');
 const { SlashCommandBuilder } = require('discord.js');
 
 const { host, port } = require('../config');
-const { deleteLogEmbed } = require('../embeds/deleteLogEmbed');
+const { logEmbed } = require('../embeds/logEmbed');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -26,7 +26,7 @@ module.exports = {
                 }
             });
 
-            await interaction.reply({ embeds: [deleteLogEmbed(res.data.log)] })
+            await interaction.reply({ embeds: [logEmbed(res.data.log)] })
         } catch (err) {
             console.log(`/deletelog - API call(s) failed! Error=${err}`);
             await interaction.reply("Uh oh! Something went wrong.");

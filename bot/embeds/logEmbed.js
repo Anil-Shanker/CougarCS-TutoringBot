@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
+const Util = require('../utils');
 
-function deleteLogEmbed(data) {
+function logEmbed(data) {
     const { id, timestamp, duration, description, tutoringTypeId } = data;
 
     return new EmbedBuilder()
@@ -10,10 +11,10 @@ function deleteLogEmbed(data) {
         .addFields(
             { name: 'Session ID', value: id },
             { name: 'Timestamp', value: timestamp },
-            { name: 'Duration', value: duration.toString() },
+            { name: 'Duration', value: Util.formatDuration(duration) },
             { name: 'Description', value: description },
         )
         .setTimestamp();
 }
 
-module.exports = { deleteLogEmbed };
+module.exports = { logEmbed };
