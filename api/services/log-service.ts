@@ -1,6 +1,25 @@
 import { prisma } from "../utils/prisma";
 
 class LogService {
+    static async selectLastLogForTutor(
+        tutorId: string,
+    ) {
+        console.log(`LogService.selectLastLogForTutor() called - tutorId=${tutorId}`);
+
+        const logId = await prisma.tutoringSession.findFirst({
+            where: {
+                tutorId,
+            },
+            orderBy: [
+                {
+                    timestamp: 'desc'
+                }
+            ]
+        });
+
+        return logId;
+    }
+
     static async createLog(
         tutorId: string,
         tutoringTypeId: number,

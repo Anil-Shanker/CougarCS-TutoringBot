@@ -1,9 +1,35 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
+import { body, query, validationResult } from "express-validator";
 
 import LogService from "../services/log-service";
 
 const router = Router();
+
+/* GET /log/lastForTutor */
+
+router.get(
+    "/lastForTutor",
+    query("discordId").isString().notEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const tutorId = req?.query?.discordId;
+
+        try {
+            const log = await LogService.selectLastLogForTutor(tutorId);
+            return res.status(200).json({ log });
+        }
+
+        catch (err) {
+            console.log(`LogService.selectLastLogForTutor() failed - Error=${err}`);
+        }
+
+        res.status(500).json({ message: "Unable to access resource" });
+    }
+);
 
 /* POST /log */
 
@@ -30,6 +56,8 @@ router.post(
         }
     }
 );
+
+/* DELETE /log */
 
 router.delete(
     "/",
